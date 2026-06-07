@@ -83,4 +83,19 @@ async function updateUser(req, res)
     });
 }
 
-module.exports = {getAllUsers,getUserById,deleteUser,createUser,updateUser};
+async function login(req, res)
+{
+    try
+    {
+        const user =await usersService.login(req.body);
+
+        res.json(user);
+    }
+    catch(error)
+    {
+        res.status(401).json({
+            message: error.message
+        });
+    }
+}
+module.exports = {getAllUsers,getUserById,deleteUser,createUser,updateUser,login};

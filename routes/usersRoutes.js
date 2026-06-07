@@ -7,6 +7,8 @@ const controller =require("../controllers/usersController");
 
 router.get("/",controller.getAllUsers);
 
+router.post("/login",controller.login);
+
 router.get("/:id",controller.getUserById);
 
 router.post("/",controller.createUser);

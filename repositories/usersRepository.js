@@ -131,5 +131,25 @@ async function updateUser(id, user)
     return result;
 }
 
+async function getUserByUsername(userName)
+{
+    const [rows] = await db.query(
+        `
+        SELECT
+            id,
+            user_name,
+            email,
+            first_name,
+            last_name,
+            is_admin
+        FROM users
+        WHERE user_name = ?
+        `,
+        [userName]
+    );
 
-module.exports = {getAllUsers,getUserById,deleteUser,createUser,findByEmail,findByUsername};
+    return rows[0];
+}
+
+
+module.exports = {getAllUsers,getUserById,deleteUser,createUser,findByEmail,findByUsername,getUserByUsername,updateUser};

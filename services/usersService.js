@@ -22,6 +22,29 @@ async function deleteUser(id)
 
 async function createUser(data)
 {
+    // check required fields
+    if(
+        !data.user_name ||
+        !data.email ||
+        !data.first_name ||
+        !data.last_name ||
+        !data.password
+    )
+    {
+        throw new Error("All fields are required");
+    }
+    // password must contain at least 6 characters
+    if(data.password.length < 6)
+    {
+        throw new Error(
+            "Password must contain at least 6 characters"
+        );
+    }
+    // basic email validation
+    if(!data.email.includes("@"))
+    {
+        throw new Error("Invalid email");
+    }
     const exUserName =await funcUsersRepository.findByUsername(data.user_name);
 
     if(exUserName)
@@ -48,7 +71,53 @@ async function createUser(data)
 
 async function updateUser(id, user)
 {
+    if(
+    !user.user_name ||
+    !user.email ||
+    !user.first_name ||
+    !user.last_name
+    )
+    {
+        throw new Error("All fields are required");
+    }
+    if(!user.email.includes("@"))
+    {
+
+        throw new Error("Invalid email");
+
+    }
     return await funcUsersRepository.updateUser(id,user);
 }
 
-module.exports = {getAllUsers,getUserById,deleteUser,createUser,updateUser};
+async function login(data)
+{
+    const user =
+        await funcUsersRepository.getUserByUsername(
+            data.user_name
+        );
+
+    if(!user)
+    {
+        throw new Error("Invalid username or password");
+    }
+
+    const passwordData =
+        await funcPasswordsRepository.getPasswordHash(
+            user.id
+        );
+
+    const isMatch =
+        await bcrypt.compare(
+            data.password,
+            passwordData.hash_password
+        );
+
+    if(!isMatch)
+    {
+        throw new Error("Invalid username or password");
+    }
+
+    return user;
+}
+
+module.exports = {getAllUsers,getUserById,deleteUser,createUser,updateUser,login};
