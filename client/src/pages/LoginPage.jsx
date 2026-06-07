@@ -19,7 +19,6 @@ function LoginPage()
     function handleChange(event)
     {
         setFormData({
-            // keep old fields and update only current one
             ...formData,
             [event.target.name]: event.target.value
         });
@@ -28,7 +27,6 @@ function LoginPage()
     // send login request to server
     async function handleSubmit(event)
     {
-        // stop page refresh
         event.preventDefault();
 
         try
@@ -49,7 +47,6 @@ function LoginPage()
 
             if(response.ok)
             {
-                // save connected user
                 localStorage.setItem(
                     "user",
                     JSON.stringify(data)
@@ -57,7 +54,6 @@ function LoginPage()
 
                 setMessage("login successful 😊");
 
-                // move to todos page
                 setTimeout(() =>
                 {
                     navigate("/home");
@@ -65,59 +61,78 @@ function LoginPage()
             }
             else
             {
-                // show error returned from server
                 setMessage(data.message);
             }
         }
         catch(error)
         {
-            // request failed
-            setMessage(`something went wrong 🥺 ${error.message}`);
+            setMessage(
+                `something went wrong 🥺 ${error.message}`
+            );
         }
     }
 
     return (
-        <>
-            <h1>Login</h1>
+        <div className="page">
 
-            <p>{message}</p>
+            <img
+                src="/taskhub.png"
+                alt="TaskHub"
+                className="logo"
+            />
 
-            <form onSubmit={handleSubmit}>
+            <div className="form-card">
 
-                <input
-                    type="text"
-                    name="user_name"
-                    placeholder="Username"
-                    onChange={handleChange}
-                />
+                <h1>Login</h1>
 
-                <br />
+                {message && (
+                    <div className="message-box">
+                        {message}
+                    </div>
+                )}
 
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    onChange={handleChange}
-                />
+                <form onSubmit={handleSubmit}>
 
-                <br />
+                    <input
+                        type="text"
+                        name="user_name"
+                        placeholder="Username"
+                        required
+                        onChange={handleChange}
+                    />
 
-                <button type="submit">
-                    Login
+                    <br />
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        required
+                        onChange={handleChange}
+                    />
+
+                    <br />
+
+                    <button type="submit">
+                        Login
+                    </button>
+
+                </form>
+
+                <p>
+                    Don't have an account yet?
+                </p>
+
+                <button
+                    type="button"
+                    onClick={() => navigate("/register")}
+                >
+                    Register
                 </button>
 
-            </form>
-            <p>
-                dont have an account yet ?
-            </p>
+            </div>
 
-            <button
-                type="button"
-                onClick={() => navigate("/register")}
-            >
-                Register
-            </button>
-        </>
+        </div>
     );
 }
 

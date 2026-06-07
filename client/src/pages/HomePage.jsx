@@ -32,35 +32,53 @@ function HomePage()
     }
 
     return (
-        <>
-            <h1>TaskHub</h1>
+        <div className="page">
 
-            <h2>
-                Welcome {user?.user_name}
-            </h2>
+            <div className="home-card">
 
-            <button onClick={() => navigate("/todos")}>
-                Todos
-            </button>
+                <img
+                    src="/taskhub.png"
+                    alt="TaskHub"
+                    className="logo"
+                />
 
-            <br /><br />
+                <h1>TaskHub</h1>
 
-            <button onClick={() => navigate("/posts")}>
-                Posts
-            </button>
+                <h2>
+                    Welcome {user?.user_name} 👋
+                </h2>
 
-            <br /><br />
+                <div className="home-buttons">
 
-            <button onClick={() => navigate("/profile")}>
-                Info
-            </button>
+                    <button
+                        onClick={() => navigate("/todos")}
+                    >
+                        Todos
+                    </button>
 
-            <br /><br />
+                    <button
+                        onClick={() => navigate("/posts")}
+                    >
+                        Posts
+                    </button>
 
-            <button onClick={logout}>
-                Logout
-            </button>
-        </>
+                    <button
+                        onClick={() => navigate("/profile")}
+                    >
+                        Profile
+                    </button>
+
+                    <button
+                        onClick={logout}
+                    >
+                        Logout
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
     );
 }
 

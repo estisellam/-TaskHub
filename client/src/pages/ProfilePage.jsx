@@ -81,61 +81,71 @@ function ProfilePage()
     }
 
     return (
-        <>
-            <h1>My Info 📝</h1>
+        <div className="page">
+            <img src="/taskhub.png"
+                alt="TaskHub"
+                className="logo"
+            />
+            <div className="form-card">
+                <h1>My Info 📝</h1>
 
-            <p>{message}</p>
+                {message && (
+                    <div className="message-box">
+                        {message}
+                    </div>
+                )}
 
-            <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
 
-                <input
-                    type="text"
-                    name="user_name"
-                    value={formData.user_name}
-                    onChange={handleChange}
-                />
+                    <input
+                        type="text"
+                        name="user_name"
+                        value={formData.user_name}
+                        onChange={handleChange}
+                    />
 
-                <br /><br />
+                    <br /><br />
 
-                <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                />
+                    <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                    />
 
-                <br /><br />
+                    <br /><br />
 
-                <input
-                    type="text"
-                    name="first_name"
-                    value={formData.first_name}
-                    onChange={handleChange}
-                />
+                    <input
+                        type="text"
+                        name="first_name"
+                        value={formData.first_name}
+                        onChange={handleChange}
+                    />
 
-                <br /><br />
+                    <br /><br />
 
-                <input
-                    type="text"
-                    name="last_name"
-                    value={formData.last_name}
-                    onChange={handleChange}
-                />
+                    <input
+                        type="text"
+                        name="last_name"
+                        value={formData.last_name}
+                        onChange={handleChange}
+                    />
 
-                <br /><br />
+                    <br /><br />
 
-                <button type="submit">
-                    Update Details
+                    <button type="submit">
+                        Update Details
+                    </button>
+
+                </form>
+
+                <br />
+
+                <button onClick={() => navigate("/home")}>
+                    Home
                 </button>
-
-            </form>
-
-            <br />
-
-            <button onClick={() => navigate("/home")}>
-                Home
-            </button>
-        </>
+            </div>
+        </div>
     );
 }
 

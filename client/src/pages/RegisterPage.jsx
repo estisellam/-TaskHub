@@ -75,69 +75,46 @@ function RegisterPage()
     }
 
     return (
-        <>
-            <h1>Register</h1>
+        <div className="page">
+            <img
+                src="/taskhub.png"
+                alt="TaskHub"
+                className="logo"
+            />
 
-            <p>{message}</p>
+            <div className="form-card">
+                <h1>Register</h1>
 
-            <form onSubmit={handleSubmit}>
+                {message && (
+                    <div className="message-box">
+                        {message}
+                    </div>
+                )}
 
-                <input
-                    type="text"
-                    name="user_name"
-                    placeholder="Username"
-                    required
-                    onChange={handleChange}
-                />
+                <form onSubmit={handleSubmit}>
+                    <input type="text" name="user_name" placeholder="Username" required onChange={handleChange} />
+                    <br />
 
-                <br />
+                    <input type="email" name="email" placeholder="Email" required onChange={handleChange} />
+                    <br />
 
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                    onChange={handleChange}
-                />
+                    <input type="text" name="first_name" placeholder="First Name" required onChange={handleChange} />
+                    <br />
 
-                <br />
+                    <input type="text" name="last_name" placeholder="Last Name" required onChange={handleChange} />
+                    <br />
 
-                <input
-                    type="text"
-                    name="first_name"
-                    placeholder="First Name"
-                    required
-                    onChange={handleChange}
-                />
+                    <input type="password" name="password" placeholder="Password" required onChange={handleChange} />
+                    <br />
 
-                <br />
+                    <button type="submit">Register</button>
+                </form>
 
-                <input
-                    type="text"
-                    name="last_name"
-                    placeholder="Last Name"
-                    required
-                    onChange={handleChange}
-                />
-
-                <br />
-
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    required
-                    onChange={handleChange}
-                />
-
-                <br />
-
-                <button type="submit">
-                    Register
+                <button type="button" onClick={() => navigate("/login")}>
+                    Back To Login
                 </button>
-
-            </form>
-        </>
+            </div>
+        </div>
     );
 }
 

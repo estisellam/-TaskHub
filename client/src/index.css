@@ -1,0 +1,34 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: 'Inter', sans-serif;
+    min-height:100vh;
+
+    background:
+    linear-gradient(
+        135deg,
+        #0d1238,
+        #2c1466
+    );
+
+    color:white;
+}
+
+.page{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+.logo{
+    width:140px;
+    margin-bottom:25px;
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.4);
+}
