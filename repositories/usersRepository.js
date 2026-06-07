@@ -1,8 +1,9 @@
-const pool = require("../db/mysql");
+const db = require("../db/mysql");
 
+//operation on user table in db
 async function getAllUsers()
 {
-    const [rows] = await pool.query(`
+    const [rows] = await db.query(`
         SELECT
             id,
             user_name,
@@ -19,7 +20,7 @@ async function getAllUsers()
 
 async function getUserById(id)
 {
-    const [rows] = await pool.query(
+    const [rows] = await db.query(
         `
         SELECT
             id,
@@ -40,7 +41,7 @@ async function getUserById(id)
 
 async function deleteUser(id)
 {
-    const [result] = await pool.query(
+    const [result] = await db.query(
         `
         DELETE FROM users
         WHERE id = ?
@@ -53,7 +54,7 @@ async function deleteUser(id)
 
 async function findByUsername(userName)
 {
-    const [rows] = await pool.query(
+    const [rows] = await db.query(
         `
         SELECT id
         FROM users
@@ -67,7 +68,7 @@ async function findByUsername(userName)
 
 async function findByEmail(email)
 {
-    const [rows] = await pool.query(
+    const [rows] = await db.query(
         `
         SELECT id
         FROM users
@@ -81,7 +82,7 @@ async function findByEmail(email)
 
 async function createUser(user)
 {
-    const [result] = await pool.query(
+    const [result] = await db.query(
         `
         INSERT INTO users
         (
@@ -108,7 +109,7 @@ async function createUser(user)
 
 async function updateUser(id, user)
 {
-    const [result] = await pool.query(
+    const [result] = await db.query(
         `
         UPDATE users
         SET
@@ -131,11 +132,4 @@ async function updateUser(id, user)
 }
 
 
-module.exports = {
-    getAllUsers,
-    getUserById,
-    deleteUser,
-    createUser,
-    findByEmail,
-    findByUsername
-};
+module.exports = {getAllUsers,getUserById,deleteUser,createUser,findByEmail,findByUsername};

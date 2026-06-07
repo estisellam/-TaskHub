@@ -1,81 +1,54 @@
-const usersRepository =require("../repositories/usersRepository");
-
-const passwordsRepository =require("../repositories/passwordsRepository");
-
+// load all functions that work with users table
+const funcUsersRepository =require("../repositories/usersRepository");
+// load all functions that work with password table
+const funcPasswordsRepository =require("../repositories/passwordsRepository");
+// save hashed password instead of the original password and than compare
 const bcrypt = require("bcrypt");
 
 async function getAllUsers()
 {
-    return await usersRepository.getAllUsers();
+    return await funcUsersRepository.getAllUsers();
 }
 
 async function getUserById(id)
 {
-    return await usersRepository.getUserById(id);
+    return await funcUsersRepository.getUserById(id);
 }
 
 async function deleteUser(id)
 {
-    return await usersRepository.deleteUser(id);
+    return await funcUsersRepository.deleteUser(id);
 }
 
 async function createUser(data)
 {
-    const existingUsername =
-        await usersRepository.findByUsername(
-            data.user_name
-        );
+    const exUserName =await funcUsersRepository.findByUsername(data.user_name);
 
-    if(existingUsername)
+    if(exUserName)
     {
-        throw new Error(
-            "Username already exists"
-        );
+        throw new Error("Username already exists");
     }
 
-    const existingEmail =
-        await usersRepository.findByEmail(
-            data.email
-        );
+    const exEmail =await funcUsersRepository.findByEmail(data.email);
 
-    if(existingEmail)
+    if(exEmail)
     {
-        throw new Error(
-            "Email already exists"
-        );
+        throw new Error("Email already exists");
     }
 
-    const passwordHash =
-        await bcrypt.hash(
-            data.password,
-            10
-        );
+    //we saved just hash to protect info
+    const passwordHash =await bcrypt.hash(data.password,10);
 
-    const userId =
-        await usersRepository.createUser(
-            data
-        );
+    const userId =await funcUsersRepository.createUser(data);
 
-    await passwordsRepository.createPassword(
-        userId,
-        passwordHash
-    );
+    await funcPasswordsRepository.createPassword(userId,passwordHash);
 
     return userId;
 }
 
 async function updateUser(id, user)
 {
-    return await usersRepository.updateUser(
-        id,
-        user
-    );
+    return await funcUsersRepository.updateUser(id,user);
 }
 
-module.exports = {
-    getAllUsers,
-    getUserById,
-    deleteUser,
-    createUser,
-    updateUser
-};
+module.exports = {getAllUsers,getUserById,deleteUser,createUser,updateUser};

@@ -1,5 +1,6 @@
 const pool = require("../db/mysql");
 
+//operation on password table in db
 async function createPassword(
     userId,
     passwordHash
