@@ -13,6 +13,11 @@ function Navbar()
 
     return (
         <>
+            {/* כפתור ה-Home החדש שיוביל לדף הבית */}
+            <button onClick={() => navigate("/home")}>
+                Home 🏠
+            </button>
+
             <button onClick={() => navigate("/todos")}>
                 Todos
             </button>

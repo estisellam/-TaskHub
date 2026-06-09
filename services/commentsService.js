@@ -48,4 +48,8 @@ async function updateComment(id, comment)
     return await funcCommentRepository.updateComment(id, comment);
 }
 
+async function getCommentsByPostId(postId) {
+    return await funcCommentRepository.getCommentsByPostId(postId);
+}
+
 module.exports = {getAllComments,getCommentById,deleteComment,createComment,updateComment};

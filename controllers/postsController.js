@@ -22,21 +22,53 @@ async function getPostById(req, res)
     res.json(post);
 }
 
-async function deletePost(req, res)
-{
-    const id = req.params.id;
-    const result =await postsService.deletePost(id);
 
-    if(result.affectedRows === 0)
-    {
-        return res.status(404).json({
-            message: "Post not found 🔎"
-        });
+async function deletePost(req, res) {
+    try {
+        const id = req.params.id;
+        const { userId } = req.body; // המשתמש שמנסה למחוק
+
+        // 1. קודם כל נשלוף את הפוסט כדי לראות למי הוא שייך
+        const post = await postsService.getPostById(id);
+        if (!post) {
+            return res.status(404).json({ message: "Post not found 🔎" });
+        }
+
+        // 2. בדיקה: האם הפוסט שייך למשתמש הפעיל?
+        if (post.user_id !== Number(userId)) {
+            return res.status(403).json({ message: "You are not authorized to delete this post! ⛔" });
+        }
+
+        // 3. אם הכל תקין - מוחקים
+        await postsService.deletePost(id);
+        res.json({ message: "Post deleted 🗑️" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
+}
 
-    res.json({
-        message: "Post deleted 🗑️"
-    });
+async function updatePost(req, res) {
+    try {
+        const id = req.params.id;
+        const { userId, title, body } = req.body; // הנתונים המעודכנים ומי שמנסה לעדכן
+
+        // 1. נשלוף את הפוסט הקיים
+        const post = await postsService.getPostById(id);
+        if (!post) {
+            return res.status(404).json({ message: "Post not found 🔎" });
+        }
+
+        // 2. בדיקה: האם הפוסט שייך למשתמש הפעיל?
+        if (post.user_id !== Number(userId)) {
+            return res.status(403).json({ message: "You are not authorized to update this post! ⛔" });
+        }
+
+        // 3. עדכון
+        await postsService.updatePost(id, { title, body });
+        res.json({ message: "Post updated 🏗️" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 
 async function createPost(req, res)
@@ -55,22 +87,6 @@ async function createPost(req, res)
             message: error.message
         });
     }
-}
-
-async function updatePost(req, res)
-{
-    const result =await postsService.updatePost(req.params.id,req.body);
-
-    if(result.affectedRows === 0)
-    {
-        return res.status(404).json({
-            message: "Post not found 🔎"
-        });
-    }
-
-    res.json({
-        message: "Post updated 🏗️"
-    });
 }
 
 module.exports = {getAllPosts,getPostById,deletePost,createPost,updatePost};
