@@ -12,6 +12,10 @@ const postsRoutes =require("./routes/postsRoutes");
 
 const commentsRoutes = require("./routes/commentsRoutes");
 
+const albumsRoutes = require("./routes/albumsRoutes");
+
+const photosRoutes = require("./routes/photosRoutes");
+
 // allow requests from client
 app.use(cors());
 //convert from json to js
@@ -24,6 +28,10 @@ app.use("/todos",todosRoutes);
 app.use("/posts",postsRoutes);
 
 app.use("/comments", commentsRoutes);
+
+app.use("/albums", albumsRoutes);
+
+app.use("/photos", photosRoutes);
 
 app.get("/", (req, res) => {
     res.json({message: "Hello To TaskHub"});

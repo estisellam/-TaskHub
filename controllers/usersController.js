@@ -87,7 +87,13 @@ async function login(req, res)
 {
     try
     {
-        const user =await usersService.login(req.body);
+        const user = await usersService.login(req.body);
+
+        if (user.is_blocked) {
+            return res.status(403).json({
+                message: "Your account has been blocked by the administrator! ⛔"
+            });
+        }
 
         res.json(user);
     }
@@ -98,4 +104,33 @@ async function login(req, res)
         });
     }
 }
-module.exports = {getAllUsers,getUserById,deleteUser,createUser,updateUser,login};
+
+async function toggleBlockUser(req, res)
+{
+    try {
+        const { id } = req.params;
+        const { isBlocked } = req.body; // מקבל true או false מה-Frontend
+
+        // קריאה ל-Service שיבצע את העדכון במסד הנתונים
+        const result = await usersService.updateUserBlockStatus(id, isBlocked);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "User not found 🔎" });
+        }
+
+        res.json({
+            message: isBlocked ? "User blocked successfully 🔒" : "User unblocked successfully 🔓"
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+module.exports = {
+    getAllUsers,
+    getUserById,
+    deleteUser,
+    createUser,
+    updateUser,
+    login,
+    toggleBlockUser 
+};

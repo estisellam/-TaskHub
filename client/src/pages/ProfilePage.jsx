@@ -68,6 +68,11 @@ function ProfilePage()
                 setMessage(
                     "User updated successfully 😊"
                 );
+
+                // 🔄 החזרה אוטומטית לדף הבית לאחר שנייה וחצי (1500 מילישניות)
+                setTimeout(() => {
+                    navigate("/home");
+                }, 1500);
             }
             else
             {
@@ -141,8 +146,8 @@ function ProfilePage()
 
                 <br />
 
-                <button onClick={() => navigate("/home")}>
-                    Home
+                <button onClick={() => navigate("/home")} style={{ background: "transparent", border: "1px solid #555" }}>
+                    Back to Home
                 </button>
             </div>
         </div>
